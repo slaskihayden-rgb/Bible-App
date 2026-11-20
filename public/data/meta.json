@@ -1,0 +1,13 @@
+{
+  "model": "Xenova/all-MiniLM-L6-v2",
+  "upstream": "sentence-transformers/all-MiniLM-L6-v2",
+  "quantizedModel": true,
+  "pooling": "mean",
+  "normalize": true,
+  "dim": 384,
+  "count": 31102,
+  "quantization": "int8",
+  "scale": 127,
+  "source": "scrollmapper/bible_databases branch 2025, formats/csv/KJV.csv",
+  "text": "King James Version (1769), public domain in the United States"
+}

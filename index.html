@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Ask a question or say a prayer. The answer is King James Bible verses, and nothing else." />
+    <meta name="theme-color" content="#6d312c" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14110e" media="(prefers-color-scheme: dark)" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Bible Verses" />
+    <title>Bible Verses</title>
+    <link rel="icon" href="./icons/icon-192.png" />
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header>
+        <h1>Bible Verses</h1>
+        <p class="edition">King James Version</p>
+      </header>
+      <main>
+        <div class="mic-wrap">
+          <button id="mic" class="mic" type="button" hidden aria-pressed="false" aria-label="Speak a question or prayer">
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="3" width="6" height="11" rx="3"></rect>
+              <path d="M6 11a6 6 0 0 0 12 0"></path>
+              <path d="M12 17v4"></path>
+              <path d="M8 21h8"></path>
+            </svg>
+          </button>
+        </div>
+        <p id="hint" class="hint"></p>
+        <form id="ask">
+          <label class="prompt" for="question">What is on your heart?</label>
+          <textarea id="question" name="question" rows="4" autocomplete="off" enterkeyhint="search" placeholder="A question or a prayer"></textarea>
+          <div class="actions">
+            <button id="search" class="primary" type="submit">Search</button>
+          </div>
+        </form>
+        <p id="status" class="status" role="status"></p>
+        <div id="results"></div>
+        <button id="read" class="secondary" type="button" hidden>Read aloud</button>
+        <button id="stop" class="secondary" type="button" hidden>Stop</button>
+        <details>
+          <summary>Voice</summary>
+          <div class="settings">
+            <label>
+              Phone voice
+              <select id="voice"></select>
+            </label>
+            <label>
+              Speed
+              <input id="rate" type="range" min="0.7" max="1" step="0.05" value="0.85" />
+            </label>
+            <label>
+              Pitch
+              <input id="pitch" type="range" min="0.55" max="1.05" step="0.05" value="0.75" />
+            </label>
+            <label>
+              <input id="piper" type="checkbox" />
+              Deeper on-device voice
+            </label>
+            <p class="note">A free synthetic male voice, kept on this phone. It downloads once, about 60 MB. Nothing you ask is sent away to be read.</p>
+            <div id="voice-progress" class="progress" hidden><span></span></div>
+            <p id="voice-note" class="note"></p>
+            <p class="note">On an iPhone, tap Share, then Add to Home Screen.</p>
+          </div>
+        </details>
+      </main>
+    </div>
+    <noscript><p>JavaScript is needed to search the scriptures.</p></noscript>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
