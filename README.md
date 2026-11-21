@@ -1,6 +1,6 @@
 # Bible Verses
 
-A private, phone-friendly way to bring a question or a prayer to the King James Version. You speak or type. The page answers with three to five verses, quoted exactly, and can read them aloud. Nothing is added around the verses.
+A private, phone-friendly way to bring a question or a prayer to the King James Version. You speak or type. The page shows three to five verses, quoted exactly, and a short note under each one: why that verse meets the question, and how to apply it. It can read the verse and those notes aloud.
 
 It is a static site. Search, speech, and the optional spoken voice all run on the phone. There is no server and no API key.
 

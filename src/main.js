@@ -80,9 +80,34 @@ function render(verses) {
     body.className = "verse";
     body.textContent = verse.text;
     article.append(reference, body);
+    if (verse.why) article.append(noteBlock("why", "Why this verse", verse.why));
+    if (verse.apply) article.append(noteBlock("apply", "How to apply it", verse.apply));
     resultsEl.append(article);
   }
   setReading(false);
+}
+
+function noteBlock(kind, label, text) {
+  const block = document.createElement("aside");
+  block.className = `note-block ${kind}`;
+  const heading = document.createElement("p");
+  heading.className = "note-label";
+  heading.textContent = label;
+  const body = document.createElement("p");
+  body.className = "note-body";
+  body.textContent = text;
+  block.append(heading, body);
+  return block;
+}
+
+function spokenPieces(verse) {
+  const pieces = [
+    spokenReference(verse.book, verse.chapter, verse.verse),
+    ...chunks(speechLine(verse.text)),
+  ];
+  if (verse.why) pieces.push("Why this verse:", speechLine(verse.why));
+  if (verse.apply) pieces.push("How to apply it:", speechLine(verse.apply));
+  return pieces;
 }
 
 function stopSpeaking() {
@@ -116,11 +141,7 @@ function speakWithBrowser() {
   const pitch = Number(pitchInput.value) || DEFAULT_PITCH;
   const utterances = [];
   for (const verse of shown) {
-    const pieces = [
-      spokenReference(verse.book, verse.chapter, verse.verse),
-      ...chunks(speechLine(verse.text)),
-    ];
-    for (const piece of pieces) utterances.push(piece);
+    for (const piece of spokenPieces(verse)) utterances.push(piece);
   }
   utterances.forEach((piece, index) => {
     const utterance = new SpeechSynthesisUtterance(piece);
@@ -216,10 +237,7 @@ function speakWithPiper() {
   setStatus("");
   piperWorker.postMessage({
     type: "speak",
-    parts: shown.map((verse) => ({
-      reference: spokenReference(verse.book, verse.chapter, verse.verse),
-      text: speechLine(verse.text),
-    })),
+    parts: shown.map((verse) => ({ lines: spokenPieces(verse) })),
   });
 }
 

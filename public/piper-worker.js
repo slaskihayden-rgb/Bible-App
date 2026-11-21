@@ -185,7 +185,9 @@ self.onmessage = async (event) => {
       const sampleRate = voiceConfig.audio.sample_rate;
       let index = 0;
       for (const part of event.data.parts) {
-        const pieces = [part.reference, ...sentences(part.text)];
+        const pieces = Array.isArray(part.lines) && part.lines.length
+          ? part.lines
+          : [part.reference, ...sentences(part.text)];
         for (const piece of pieces) {
           if (cancelled) return;
           const pcm = await synthesize(piece);

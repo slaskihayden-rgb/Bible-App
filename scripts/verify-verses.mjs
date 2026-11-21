@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { LEXICON } from "../src/lexicon.js";
+import { phrasesMissingNotes, explainVerse } from "../src/explain.js";
 import { findCitedVerses, normalizeForSearch, referenceLabel } from "../src/text.js";
 import { pickVoice } from "../src/voices.js";
 
@@ -111,6 +112,17 @@ for (const concept of LEXICON) {
     if (!normalized.some((text) => text.includes(phrase))) fail(`Phrase not in the KJV: ${phrase}`);
   }
 }
+
+const missingNotes = phrasesMissingNotes();
+if (missingNotes.length) fail(`Missing notes for: ${missingNotes.join("; ")}`);
+
+function sentenceCount(text) {
+  return (text.match(/[.!?](?:\s|$)/g) || []).length;
+}
+const sampleNote = explainVerse("anxious about money", "But my God shall supply all your need according to his riches in glory by Christ Jesus.");
+if (!sampleNote.why.startsWith("You said you are anxious about money.")) fail(`Unexpected lead: ${sampleNote.why}`);
+if (sentenceCount(sampleNote.why) > 2 || sentenceCount(sampleNote.apply) > 2) fail("A note is longer than two sentences");
+if (sampleNote.why.includes("supply all your need according to his riches") === false) fail("Money note missed the verse's claim");
 
 const cited = findCitedVerses("Please read John 3:16", bundled);
 if (!cited?.only || referenceLabel(bundled[cited.indexes[0]].book, bundled[cited.indexes[0]].chapter, bundled[cited.indexes[0]].verse) !== "John 3:16") {
