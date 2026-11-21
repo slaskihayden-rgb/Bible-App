@@ -164,6 +164,49 @@ article {
   line-height: 1.55;
 }
 
+.note-block {
+  margin: 0.9rem 0 0;
+  padding: 0.55rem 0.85rem 0.7rem;
+  border-left: 3px solid var(--line);
+}
+
+.note-block.why {
+  border-left-color: var(--accent);
+  background: rgba(109, 49, 44, 0.07);
+}
+
+.note-block.apply {
+  border-left-color: #8d7354;
+  background: rgba(141, 115, 84, 0.12);
+}
+
+.note-label {
+  margin: 0 0 0.25rem;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+  font-style: normal;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.note-body {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  color: #4e4338;
+}
+
+.note-block.why .note-body { font-style: italic; }
+.note-block.apply .note-body { font-style: normal; }
+
+@media (prefers-color-scheme: dark) {
+  .note-body { color: #d9cbb8; }
+  .note-block.why { background: rgba(196, 120, 112, 0.12); }
+  .note-block.apply { background: rgba(196, 168, 130, 0.1); }
+}
+
 @media (max-width: 380px) {
   .verse { font-size: 1.32rem; }
   header h1 { font-size: 1.75rem; }

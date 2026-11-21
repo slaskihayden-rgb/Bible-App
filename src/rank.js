@@ -1,3 +1,4 @@
+import { explainVerse } from "./explain.js";
 import { LEXICON, EXPANSION_STOP } from "./lexicon.js";
 import { findCitedVerses, normalizeForSearch, referenceLabel, tokenize } from "./text.js";
 
@@ -186,14 +187,20 @@ function pickDiverse(scores, verses, count) {
   return chosen;
 }
 
-export function toResult(verse) {
-  return {
+export function toResult(verse, query) {
+  const result = {
     book: verse.book,
     chapter: verse.chapter,
     verse: verse.verse,
     text: verse.text,
     reference: referenceLabel(verse.book, verse.chapter, verse.verse),
   };
+  if (query) {
+    const note = explainVerse(query, verse.text);
+    result.why = note.why;
+    result.apply = note.apply;
+  }
+  return result;
 }
 
 /**
@@ -202,7 +209,7 @@ export function toResult(verse) {
  */
 export function rankVerses({ query, queryVec, verses, matrix, index, count = RESULT_COUNT }) {
   const cited = findCitedVerses(query, verses);
-  if (cited?.only) return cited.indexes.map((index) => toResult(verses[index]));
+  if (cited?.only) return cited.indexes.map((index) => toResult(verses[index], query));
 
   const concepts = activeConcepts(query);
   const dim = queryVec.length;
@@ -225,5 +232,5 @@ export function rankVerses({ query, queryVec, verses, matrix, index, count = RES
     if (!picked.includes(index)) picked.push(index);
     if (picked.length >= count) break;
   }
-  return picked.slice(0, count).map((index) => toResult(verses[index]));
+  return picked.slice(0, count).map((index) => toResult(verses[index], query));
 }
